@@ -13,10 +13,6 @@
 #define SECRET 2
 // enum soundType {chest, secret}
 
-unsigned int activeSound; // either secret or chest
-unsigned int activeLightPattern; // either secret or chest
-
-
 void setup() {
   // put your setup code here, to run once:
   Serial.begin(9600);
@@ -28,27 +24,16 @@ void setup() {
 void loop() {
   // put your main code here, to run repeatedly:
 
-  if (activeSound) {
-    playZeldaSound(activeSound);
-  }
-
-  if (activeLightPattern) {
-    toggleLights(true);
-  }
-
   if( CircuitPlayground.leftButton()) {
-    // playZeldaSound(CHEST);
-    // toggleLights(true);
-    activeSound = CHEST;
-    activeLightPattern = CHEST;
+      playZeldaSound(CHEST);
+      toggleLights(true);
 
   } else if (CircuitPlayground.rightButton()){
-    activeSound = SECRET;
-    activeLightPattern = SECRET;
-    // playZeldaSound(SECRET);
-    // toggleLights(true);
+    playZeldaSound(SECRET);
+    toggleLights(true);
 
   } else {
+    CircuitPlayground.redLED(LOW);
     toggleLights(false);
   }
 }
@@ -123,7 +108,6 @@ void toggleLights(bool state) {
   } else {
     CircuitPlayground.clearPixels();
   }
-  activeLightPattern = NULL;
 }
 
 void playZeldaSound(int type) {
@@ -134,7 +118,7 @@ void playZeldaSound(int type) {
   int quarterNote = noteDuration / 4;
   int eighthNote = noteDuration / 8;
 
-  if (activeSound == SECRET){
+  if (type == SECRET){
     CircuitPlayground.playTone(NOTE_G5, eighthNote);
     CircuitPlayground.playTone(NOTE_FS5, eighthNote);
     CircuitPlayground.playTone(NOTE_DS5, eighthNote);
@@ -146,7 +130,7 @@ void playZeldaSound(int type) {
     return;
   }
 
-  if (activeSound == CHEST){
+  if (type == CHEST){
     CircuitPlayground.playTone(NOTE_A5, quarterNote);
     CircuitPlayground.playTone(NOTE_AS5, quarterNote);
     CircuitPlayground.playTone(NOTE_B5, quarterNote);
@@ -154,6 +138,4 @@ void playZeldaSound(int type) {
     return;
   }
 
-  activeLightPattern = activeSound;
-  activeSound = NULL;
 }
