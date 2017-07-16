@@ -3,7 +3,8 @@
         {
             "name": "Mac",
             "includePath": [
-                "/Applications/Arduino.app/Contents/Java/hardware/arduino/avr/cores/arduino"
+                "/Applications/Arduino.app/Contents/Java/hardware/arduino/avr/cores/arduino",
+                "/Users/cschmitz/Library/Arduino15/packages/adafruit/hardware/samd/1.0.18/cores/arduino"
             ],
             "browse": {
                 "limitSymbolsToIncludedHeaders": false,

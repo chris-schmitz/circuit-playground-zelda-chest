@@ -1,20 +1,14 @@
 #include <Adafruit_CircuitPlayground.h>
 #include <Wire.h>
 #include <SPI.h>
+#include "Chest.h"
 
-#include "notes.h"
+#define SOUND_CHEST_OPEN 1
+#define SOUND_SECRET 2
 
-/********************************************************************
- * Musical Notes via https://www.arduino.cc/en/Tutorial/ToneMelody  *
- ********************************************************************/
-
-
-#define CHEST 1
-#define SECRET 2
-// enum soundType {chest, secret}
+Chest chest;
 
 void setup() {
-  // put your setup code here, to run once:
   Serial.begin(9600);
   Serial.println('Light with button');
 
@@ -25,117 +19,14 @@ void loop() {
   // put your main code here, to run repeatedly:
 
   if( CircuitPlayground.leftButton()) {
-      playZeldaSound(CHEST);
-      toggleLights(true);
+      chest.playZeldaSound(SOUND_CHEST_OPEN);
+      chest.toggleLights(true);
 
   } else if (CircuitPlayground.rightButton()){
-    playZeldaSound(SECRET);
-    toggleLights(true);
+    chest.playZeldaSound(SOUND_SECRET);
+    chest.toggleLights(true);
 
   } else {
-    CircuitPlayground.redLED(LOW);
-    toggleLights(false);
+    chest.toggleLights(false);
   }
-}
-
-void toggleLights(bool state) {
-  if(state) {
-      int pauseDuration = 100;
-      for (int i = 0; i <= 9 ; i++){
-        CircuitPlayground.setPixelColor(i, 255, 255, 255);
-      }
-
-      CircuitPlayground.setPixelColor(0, 255, 0, 0);
-      delay(pauseDuration);
-      CircuitPlayground.setPixelColor(0, 255, 255, 255);
-      CircuitPlayground.setPixelColor(1, 255, 0, 0);
-      delay(pauseDuration);
-      CircuitPlayground.setPixelColor(1, 255, 255, 255);
-      CircuitPlayground.setPixelColor(2, 255, 0, 0);
-      delay(pauseDuration);
-      CircuitPlayground.setPixelColor(2, 255, 255, 255);
-      CircuitPlayground.setPixelColor(3, 255, 0, 0);
-      delay(pauseDuration);
-      CircuitPlayground.setPixelColor(3, 255, 255, 255);
-      CircuitPlayground.setPixelColor(4, 255, 0, 0);
-      delay(pauseDuration);
-      CircuitPlayground.setPixelColor(4, 255, 255, 255);
-      CircuitPlayground.setPixelColor(5, 255, 0, 0);
-      delay(pauseDuration);
-      CircuitPlayground.setPixelColor(5, 255, 255, 255);
-      CircuitPlayground.setPixelColor(6, 255, 0, 0);
-      delay(pauseDuration);
-      CircuitPlayground.setPixelColor(6, 255, 255, 255);
-      CircuitPlayground.setPixelColor(7, 255, 0, 0);
-      delay(pauseDuration);
-      CircuitPlayground.setPixelColor(7, 255, 255, 255);
-      CircuitPlayground.setPixelColor(8, 255, 0, 0);
-      delay(pauseDuration);
-      CircuitPlayground.setPixelColor(8, 255, 255, 255);
-      CircuitPlayground.setPixelColor(9, 255, 0, 0);
-      delay(pauseDuration);
-      CircuitPlayground.setPixelColor(9, 255, 255, 255);
-      CircuitPlayground.setPixelColor(0, 255, 0, 0);
-      delay(pauseDuration);
-      CircuitPlayground.setPixelColor(0, 255, 255, 255);
-      CircuitPlayground.setPixelColor(1, 255, 0, 0);
-      delay(pauseDuration);
-      CircuitPlayground.setPixelColor(1, 255, 255, 255);
-      CircuitPlayground.setPixelColor(2, 255, 0, 0);
-      delay(pauseDuration);
-      CircuitPlayground.setPixelColor(2, 255, 255, 255);
-      CircuitPlayground.setPixelColor(3, 255, 0, 0);
-      delay(pauseDuration);
-      CircuitPlayground.setPixelColor(3, 255, 255, 255);
-      CircuitPlayground.setPixelColor(4, 255, 0, 0);
-      delay(pauseDuration);
-      CircuitPlayground.setPixelColor(4, 255, 255, 255);
-      CircuitPlayground.setPixelColor(5, 255, 0, 0);
-      delay(pauseDuration);
-      CircuitPlayground.setPixelColor(5, 255, 255, 255);
-      CircuitPlayground.setPixelColor(6, 255, 0, 0);
-      delay(pauseDuration);
-      CircuitPlayground.setPixelColor(6, 255, 255, 255);
-      CircuitPlayground.setPixelColor(7, 255, 0, 0);
-      delay(pauseDuration);
-      CircuitPlayground.setPixelColor(7, 255, 255, 255);
-      CircuitPlayground.setPixelColor(8, 255, 0, 0);
-      delay(pauseDuration);
-      CircuitPlayground.setPixelColor(8, 255, 255, 255);
-      CircuitPlayground.setPixelColor(9, 255, 0, 0);
-      delay(pauseDuration);
-
-  } else {
-    CircuitPlayground.clearPixels();
-  }
-}
-
-void playZeldaSound(int type) {
-  Serial.println("type:");
-  Serial.println(type);
-  int noteDuration = 1300;
-  int wholeNote = noteDuration;
-  int quarterNote = noteDuration / 4;
-  int eighthNote = noteDuration / 8;
-
-  if (type == SECRET){
-    CircuitPlayground.playTone(NOTE_G5, eighthNote);
-    CircuitPlayground.playTone(NOTE_FS5, eighthNote);
-    CircuitPlayground.playTone(NOTE_DS5, eighthNote);
-    CircuitPlayground.playTone(NOTE_A4, eighthNote);
-    CircuitPlayground.playTone(NOTE_GS4, eighthNote);
-    CircuitPlayground.playTone(NOTE_E5, eighthNote);
-    CircuitPlayground.playTone(NOTE_GS5, eighthNote);
-    CircuitPlayground.playTone(NOTE_C6, eighthNote);
-    return;
-  }
-
-  if (type == CHEST){
-    CircuitPlayground.playTone(NOTE_A5, quarterNote);
-    CircuitPlayground.playTone(NOTE_AS5, quarterNote);
-    CircuitPlayground.playTone(NOTE_B5, quarterNote);
-    CircuitPlayground.playTone(NOTE_C6, wholeNote);
-    return;
-  }
-
 }
